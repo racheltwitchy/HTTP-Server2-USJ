@@ -1,4 +1,4 @@
-package main.java.http.server.usj;
+package http.server.usj;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
