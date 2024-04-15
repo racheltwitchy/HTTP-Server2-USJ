@@ -1,4 +1,4 @@
-package main.java.http.server.usj;
+package http.server.usj;
 
 public class Car {
     String brand;
