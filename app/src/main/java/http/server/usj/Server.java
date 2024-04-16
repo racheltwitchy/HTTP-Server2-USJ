@@ -33,12 +33,16 @@ public class Server {
                     while (!(line = input.readLine()).isBlank()) {
                         requestBuilder.append(line + "\r\n");
                     }
+                    line = input.readLine();
+                    requestBuilder.append(line + "\r\n");
 
                     String request = requestBuilder.toString();
                     String method = request.split(" ")[0];
-                    // int bodyIndex = request.indexOf("\r\n\r\n"); Doesnt work properly
-                    // String body = request.substring(bodyIndex + 4); // Skip the "\r\n\r\n"
+                    //int bodyIndex = request.indexOf("\r\n\r\n"); //Doesnt work properly
+                    //System.out.println("Posicion del body: " + bodyIndex);
+                    //String body = request.substring(bodyIndex + 4); // Skip the "\r\n\r\n"
                     String body = request.split("\r\n")[request.split("\r\n").length - 1];
+                   
                     if (method.equals("GET")) {
                         response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                                 "Echoing back your request body(GET):\r\n"
