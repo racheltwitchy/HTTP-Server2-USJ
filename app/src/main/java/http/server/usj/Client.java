@@ -43,11 +43,12 @@ public class Client {
             }
 
             String request = method + " / HTTP/1.1\r\n"
-                    + "Host: " + server + "\r\n"
-                    + "Connection: close\r\n"
-                    + "Content-Length: " + body.getBytes().length + " \r\n"
-                    + "Date: " + java.time.LocalDateTime.now() + "\r\n\r\n"
-                    + body + "\r\n";
+            + "Host: " + server + "\r\n"
+            + "Connection: close\r\n"
+            + "Content-Length: " + body.getBytes().length + "\r\n"
+            + "Date: " + java.time.LocalDateTime.now() + "\r\n"
+            + "\r\n" // Add only one \r\n here
+            + body + "\r\n";
 
             try (Socket socket = new Socket(server, Integer.parseInt(port));
                     PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
