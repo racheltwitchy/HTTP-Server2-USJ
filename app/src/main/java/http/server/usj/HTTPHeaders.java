@@ -1,13 +1,18 @@
 package http.server.usj;
 
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.Date;
-import java.text.SimpleDateFormat;
 
 public class HTTPHeaders {
     List<String> headers;
+    String headerName;
+
+    public HTTPHeaders(String headerName) {
+        this.headerName = headerName;
+    }
+
+    public String getHeader() {
+        return headerName;
+    }
 
     public void addHeaderToHeaders(HTTPHeaders headerType, String headerValue) {
         String header = headerType.getHeader() + ": " + headerValue;
@@ -38,12 +43,6 @@ public class HTTPHeaders {
             }
         }
         throw new IllegalArgumentException("The header " + headerType + " is not found in HttpHeaders: ");
-    }
-
-    protected String getCurrentTime() {
-        SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-        format.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return format.format(new Date());
     }
 
     public String toString() {
