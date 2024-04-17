@@ -1,69 +1,58 @@
 package http.server.usj;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.Socket;
-
 public class Client {
     public static void main(String[] args) {
-        // Change the server to a server wanted by the user
         System.out.println("Type the server you want to connect to: ");
         String server = System.console().readLine();
 
         System.out.println("Type the port you want to connect to: ");
-        String port = System.console().readLine();
-        String method = "";
-        String body = "";
-        do {
-            do {
-                System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE or EXIT): ");
-                method = System.console().readLine();
-            } while (!method.equals("GET") && !method.equals("HEAD") && !method.equals("PUT") && !method.equals("POST")
-                    && !method.equals("DELETE") && !method.equals("EXIT"));
+        int port = Integer.parseInt(System.console().readLine());
 
-            if (method.equals("GET") || method.equals("HEAD")) {
-                System.out.println("Type the body you want to add, or press enter   : ");
-                body = System.console().readLine();
+        while (true) {
+            Request request = new Request(server, port);  // Create a new Request object each iteration
+
+            System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
+            String method = System.console().readLine();
+            
+            if ("EXIT".equalsIgnoreCase(method)) {
+                break;  // Exit the loop if the method is EXIT
             }
-            if (method.equals("PUT") || method.equals("DELETE")) {
-                if (method.equals("PUT")) {
-                    System.out.println(
-                            "Type the car you want to add (Brand Model HorsePower Price) just leave space between each characteristic: ");
-                    body = System.console().readLine();
+
+            request.setMethod(method);
+
+            // Collecting headers from the user
+            System.out.println("Enter headers (type 'Name: Value'), type 'STOP' to finish:");
+            while (true) {
+                String headerLine = System.console().readLine();
+                if ("STOP".equalsIgnoreCase(headerLine)) {
+                    break;  // Stop adding headers
                 }
-                if (method.equals("DELETE")) {
-                    System.out.println("Type the index of the car you want to delete: ");
-                    body = System.console().readLine();
+                String[] parts = headerLine.split(": ", 2);
+                if (parts.length == 2) {
+                    request.addHeader(parts[0], parts[1]);
+                } else {
+                    System.out.println("Invalid header format. Please enter in 'Name: Value' format.");
                 }
             }
-            if (method.equals("POST")) {
-                System.out.println("Type two prices (float) spaced by a space to search cars: ");
-                body = System.console().readLine();
+
+            // Input the body of the message if necessary
+            System.out.println("Type the body (if needed) and press enter: ");
+            String body = System.console().readLine();
+            request.setBody(body);
+
+            // Print the full request details for review before sending
+            System.out.println("\nFinal Request Details:");
+            System.out.println("Method: " + method);
+            System.out.println("Headers:");
+            request.getHeaders().forEach((key, value) -> System.out.println(key + ": " + value));
+            if (!body.isEmpty()) {
+                System.out.println("Body: " + body);
             }
+            System.out.println("\nSending request...\n");
 
-            String request = method + " / HTTP/1.1\r\n"
-            + "Host: " + server + "\r\n"
-            + "Connection: close\r\n"
-            + "Content-Length: " + body.getBytes().length + "\r\n"
-            + "Date: " + java.time.LocalDateTime.now() + "\r\n"
-            + "\r\n" // Add only one \r\n here
-            + body + "\r\n";
-
-            try (Socket socket = new Socket(server, Integer.parseInt(port));
-                    PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-                    BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-                out.println(request);
-                System.out.println("Request sent to the server\n" + request);
-
-                String line;
-                while ((line = in.readLine()) != null) {
-                    System.out.println(line);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } while (!method.equals("EXIT"));
+            // Send the request and receive the response
+            String response = request.send();
+            System.out.println("Response from server:\n" + response);
+        }
     }
 }
