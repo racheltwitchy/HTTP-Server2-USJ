@@ -29,4 +29,8 @@ public class Car {
     public String toString() {
         return " Brand: " + brand + " Model: " + model + " Horse Power: " + horsePower + " Price: " + price;
     }
+
+    public int getPrice() {
+        return price;
+    }
 }
