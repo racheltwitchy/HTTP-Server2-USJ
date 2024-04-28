@@ -1,5 +1,7 @@
 package http.server.usj;
 
+import java.util.Objects;
+
 public class Car {
     String brand;
     String model;
@@ -11,6 +13,47 @@ public class Car {
         this.model = model;
         this.horsePower = horsePower;
         this.price = price;
+    }
+
+    public String getBrand() {
+        return brand;
+    }
+
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public int getHorsePower() {
+        return horsePower;
+    }
+
+    public void setHorsePower(int horsePower) {
+        this.horsePower = horsePower;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String toString() {
+        return " Brand: " + brand + " Model: " + model + " Horse Power: " + horsePower + " Price: " + price;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(brand, model, horsePower, price);
     }
 
     @Override
@@ -26,11 +69,13 @@ public class Car {
                 this.price == other.price;
     }
 
-    public String toString() {
-        return " Brand: " + brand + " Model: " + model + " Horse Power: " + horsePower + " Price: " + price;
+    public boolean equals(String brand, String model) {
+        return this.brand.equals(brand) && this.model.equals(model);
     }
 
-    public int getPrice() {
-        return price;
+    public String getId() {
+        // return this.matricula
+        return this.brand;
     }
+
 }
