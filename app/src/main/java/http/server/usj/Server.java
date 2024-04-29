@@ -2,9 +2,17 @@ package http.server.usj;
 
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.util.*;
 
 public class Server {
+    private List<Car> cars;
+
+    public Server() {
+        this.cars = new ArrayList<>();
+        // Add some examples of cars
+        cars.add(new Car("Toyota", "Corolla", 150, 20000));
+        cars.add(new Car("Honda", "Civic", 160, 22000));
+    }
 
     public static void main(String[] args) {
         ArrayList<Car> cars = new ArrayList<>();
@@ -25,8 +33,10 @@ public class Server {
             e.printStackTrace();
         }
     }
+
     // Method to convert the cars arraylist to a string and have an index for each
     // car
+
     public static String carsToString(ArrayList<Car> cars) {
 
         String res = "";
@@ -34,5 +44,32 @@ public class Server {
             res += "Car: " + i + cars.get(i - 1).toString() + "\n";
         }
         return res;
+    }
+
+    public List<Car> getCars() {
+        return cars;
+    }
+
+    public Car getCarById(int id) {
+        if (id >= 0 && id < cars.size()) {
+            return cars.get(id);
+        }
+        return null;
+    }
+
+    public void addCar(Car car) {
+        cars.add(car);
+    }
+
+    public void updateCar(int id, Car car) {
+        if (id >= 0 && id < cars.size()) {
+            cars.set(id, car);
+        }
+    }
+
+    public void deleteCar(int id) {
+        if (id >= 0 && id < cars.size()) {
+            cars.remove(id);
+        }
     }
 }

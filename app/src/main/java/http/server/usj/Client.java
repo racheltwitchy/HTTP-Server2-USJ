@@ -4,6 +4,14 @@ import java.io.Console;
 import java.net.URL;
 
 public class Client {
+    // For th API usgae
+    CarAPI api;
+
+    public Client(CarAPI api) {
+        this.api = api;
+    }
+
+    // We need to add methods for displayCars, add, update and delete cars
     public static void main(String[] args) {
 
         Console console = System.console();
@@ -36,19 +44,18 @@ public class Client {
 
         while (true) {
             Request request = new Request(server, port);
-            request.setPath(path);  // Set path extracted from URL
+            request.setPath(path); // Set path extracted from URL
 
             System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
             String method = console.readLine();
 
             // Check if the method is valid
-            String[] validMethods = {"GET", "HEAD", "PUT", "POST", "DELETE", "EXIT"};
+            String[] validMethods = { "GET", "HEAD", "PUT", "POST", "DELETE", "EXIT" };
             if (!java.util.Arrays.asList(validMethods).contains(method)) {
                 System.out.println("Invalid method. Please enter a valid HTTP method.");
                 continue;
-            } else
-            if ("EXIT".equalsIgnoreCase(method)) {
-                break;  // Exit the loop if the method is EXIT
+            } else if ("EXIT".equalsIgnoreCase(method)) {
+                break; // Exit the loop if the method is EXIT
             }
 
             request.setMethod(method);
@@ -58,7 +65,7 @@ public class Client {
             while (true) {
                 String headerLine = console.readLine();
                 if ("STOP".equalsIgnoreCase(headerLine)) {
-                    break;  // Stop adding headers
+                    break; // Stop adding headers
                 }
                 String[] parts = headerLine.split(": ", 2);
                 if (parts.length == 2) {
