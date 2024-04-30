@@ -5,11 +5,11 @@ import java.net.URL;
 
 public class Client {
     // For th API usgae
-    CarAPI api;
+    /*CarAPI api;
 
     public Client(CarAPI api) {
         this.api = api;
-    }
+    }*/
 
     // We need to add methods for displayCars, add, update and delete cars
     public static void main(String[] args) {
@@ -44,7 +44,7 @@ public class Client {
 
         while (true) {
             Request request = new Request(server, port);
-            request.setPath(path); // Set path extracted from URL
+            
 
             System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
             String method = console.readLine();
@@ -59,6 +59,7 @@ public class Client {
             }
 
             request.setMethod(method);
+            request.setPath(path); // Set path extracted from URL
 
             // Collecting headers from the user
             System.out.println("Enter headers (type 'Name: Value'), type 'STOP' to finish:");

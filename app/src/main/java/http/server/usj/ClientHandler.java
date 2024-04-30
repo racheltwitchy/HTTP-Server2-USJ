@@ -18,8 +18,11 @@ public class ClientHandler implements Runnable {
     public ClientHandler(Socket socket, ArrayList<Car> cars) {
         this.socket = socket;
         this.cars = cars;
+        if(cars.isEmpty()){
+            cars.add(new Car("Toyota", "Corolla", 150, 20000));
+            cars.add(new Car("Honda", "Civic", 160, 22000));
+        }
     }
-
 
     @Override
     public void run() {
