@@ -26,7 +26,9 @@ public class Request {
     }
 
     public void setPath(String path) {
-        this.path = path;
+        if(method.equals("GET") ){
+            this.path = path;
+        }
     }
 
     public void addHeader(String name, String value) {

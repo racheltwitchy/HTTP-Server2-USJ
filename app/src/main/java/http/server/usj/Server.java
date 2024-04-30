@@ -7,13 +7,6 @@ import java.util.*;
 public class Server {
     private List<Car> cars;
 
-    public Server() {
-        this.cars = new ArrayList<>();
-        // Add some examples of cars
-        cars.add(new Car("Toyota", "Corolla", 150, 20000));
-        cars.add(new Car("Honda", "Civic", 160, 22000));
-    }
-
     public static void main(String[] args) {
         ArrayList<Car> cars = new ArrayList<>();
         System.out.println("Type the port you want: ");
