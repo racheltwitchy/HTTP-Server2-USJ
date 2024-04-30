@@ -45,8 +45,8 @@ public class ClientHandler implements Runnable {
             String path = methodLineParts[1];
 
             // Handle static content request
-            if (path.startsWith("/static") || path.equals("/index.html")) {
-                serveStaticContent(output, "static/index.html");
+            if (path.contains("/static") || path.contains("/index.html")) {
+                serveStaticContent(output, "app\\static\\index.html");
                 return;
             }
 
