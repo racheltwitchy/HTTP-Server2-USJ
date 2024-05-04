@@ -60,7 +60,7 @@ public class Client {
             String method = console.readLine();
 
             if (!validMethods.contains(method)) {
-                System.out.println("Invalid method. Please enter a valid HTTP method.");
+                System.out.println(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
                 continue;
             } else if ("EXIT".equalsIgnoreCase(method)) {
                 break; // Exit the loop if the method is EXIT
