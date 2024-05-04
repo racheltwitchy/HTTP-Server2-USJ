@@ -26,8 +26,10 @@ public class Request {
     }
 
     public void setPath(String path) {
-        if(method.equals("GET") ){
+        if(this.method.equals("GET") ){
             this.path = path;
+        }else{
+            this.path = "/";
         }
     }
 
