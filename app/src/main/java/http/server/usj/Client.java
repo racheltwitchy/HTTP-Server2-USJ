@@ -1,5 +1,5 @@
 package http.server.usj;
-
+import java.util.ArrayList;
 import java.io.Console;
 import java.net.URL;
 
@@ -44,14 +44,22 @@ public class Client {
 
         while (true) {
             Request request = new Request(server, port);
-            
-
-            System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
+            ArrayList<String> validMethods=new ArrayList<String>();
+            validMethods.add("GET");
+            validMethods.add("HEAD");
+            validMethods.add("EXIT");
+            // Check if the method is valid
+            if (path.contains("/static")){
+                System.out.println("Type the HTTP method you want to use (GET, HEAD, EXIT): ");
+            }else{
+                validMethods.add("PUT");
+                validMethods.add("POST");
+                validMethods.add("DELETE");
+                System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
+            }
             String method = console.readLine();
 
-            // Check if the method is valid
-            String[] validMethods = { "GET", "HEAD", "PUT", "POST", "DELETE", "EXIT" };
-            if (!java.util.Arrays.asList(validMethods).contains(method)) {
+            if (!validMethods.contains(method)) {
                 System.out.println("Invalid method. Please enter a valid HTTP method.");
                 continue;
             } else if ("EXIT".equalsIgnoreCase(method)) {
