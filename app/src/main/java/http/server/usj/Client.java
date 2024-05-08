@@ -51,30 +51,11 @@ public class Client {
             // Check if the method is valid
             if (path.contains("/static")){
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, EXIT): ");
-            }if (path.contains("/cars")){
+            }else{
                 validMethods.add("PUT");
                 validMethods.add("POST");
                 validMethods.add("DELETE");
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
-            }
-            else {
-                System.out.println("Introduce a valid path");
-                //Quiero que vuelva a pedir la URL hasta que sea valida
-                System.out.println("Enter the full URL you want to connect to (e.g., http://localhost:80): ");
-                urlString = console.readLine();
-                if (!urlString.startsWith("http://")) {
-                    urlString = "http://" + urlString;
-                }
-                try {
-                    URL url = new URL(urlString);
-                    server = url.getHost();
-                    port = url.getPort() == -1 ? url.getDefaultPort() : url.getPort();
-                    path = url.getPath().isEmpty() ? "/" : url.getPath();
-                } catch (Exception e) {
-                    System.err.println("Invalid URL. Please make sure the URL is correct.");
-                    e.printStackTrace();
-                    return;
-                }
             }
             String method = console.readLine();
 
