@@ -26,9 +26,9 @@ public class GUIApp extends JFrame {
         // Request configuration panel
         JPanel requestPanel = new JPanel();
         requestPanel.setLayout(new GridLayout(6, 2));
-        methodComboBox = new JComboBox<>(new String[]{"GET", "POST", "PUT", "DELETE"});
+        methodComboBox = new JComboBox<>(new String[]{"GET", "HEAD","POST", "PUT", "DELETE"});
         serverField = new JTextField("localhost");
-        portField = new JTextField("8080");
+        portField = new JTextField("80");
         pathField = new JTextField("/");
         headersArea = new JTextArea(5, 20);
         bodyArea = new JTextArea(5, 20);
