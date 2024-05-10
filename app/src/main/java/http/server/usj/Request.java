@@ -1,13 +1,16 @@
 package http.server.usj;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-
+import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Request {
 
@@ -24,6 +27,19 @@ public class Request {
         this.server = server;
         this.port = port;
         this.path = "/";
+        setupLogger();
+    }
+
+    private void setupLogger() {
+        try {
+            FileHandler fileHandler = new FileHandler("logings" + "request.log");
+            SimpleFormatter formatter = new SimpleFormatter();
+            fileHandler.setFormatter(formatter);
+            logger.addHandler(fileHandler);
+            logger.setLevel(Level.INFO);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Error setting up logger", e);
+        }
     }
 
     public void setMethod(String method) {
