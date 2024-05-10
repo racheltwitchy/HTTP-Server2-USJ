@@ -1,6 +1,6 @@
 # HTTP-Server-USJ
 This repository was created for the aim of group project for the course Networks & Comunications II.
-The grouped is composed by Fernando Otal, Hugo Baquedano, Alejandro Aisa and Raquel Perez.
+The grouped is composed by Fernando Otal and Raquel Perez.
 
 ## 📝 Technical Report
 
