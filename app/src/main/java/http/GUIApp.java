@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 import http.server.usj.Request;
+import http.server.usj.ServerStatus;
+import java.util.ArrayList;
 
 public class GUIApp extends JFrame {
     private JComboBox<String> methodComboBox;
@@ -83,14 +85,35 @@ public class GUIApp extends JFrame {
 
         // Create and configure the request
         Request request = new Request(server, port);
+        
         request.setMethod(method);
         request.setPath(path);
-        headers.forEach(request::addHeader);
-        request.setBody(body);
 
-        // Send the request and capture the response
-        String response = request.send();
-        responseArea.setText(response);
+        ArrayList<String> validMethods = new ArrayList<String>();
+            validMethods.add("GET");
+            validMethods.add("HEAD");
+            validMethods.add("EXIT");
+            // Check if the method is valid
+            if (path.contains("/static")) {
+                System.out.println("Type the HTTP method you want to use (GET, HEAD, EXIT): ");
+            } else {
+                validMethods.add("PUT");
+                validMethods.add("POST");
+                validMethods.add("DELETE");
+                System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
+            }
+            
+            if (!validMethods.contains(method)) {
+                responseArea.setText(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
+                System.out.println(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
+                
+            }else{
+                headers.forEach(request::addHeader);
+                request.setBody(body);
+                 // Send the request and capture the response
+                String response = request.send();
+                responseArea.setText(response);
+            }    
     }
 
     public static void main(String[] args) {
