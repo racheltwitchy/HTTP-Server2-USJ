@@ -7,7 +7,12 @@ import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 
+import java.util.logging.Logger;
+
 public class Request {
+
+    private static final Logger logger = Logger.getLogger(Request.class.getName());
+
     private String server;
     private int port;
     private String method;
@@ -26,9 +31,9 @@ public class Request {
     }
 
     public void setPath(String path) {
-        if(this.method.equals("GET") ){
+        if (this.method.equals("GET")) {
             this.path = path;
-        }else{
+        } else {
             this.path = "/";
         }
     }
@@ -57,8 +62,11 @@ public class Request {
         request.append("\r\n").append(body);
 
         try (Socket socket = new Socket(server, port);
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+                PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+
+            // Log the request
+            logger.info("Sending request to " + server + ":" + port + " - " + method + " " + path);
 
             out.println(request.toString());
             StringBuilder response = new StringBuilder();
@@ -66,9 +74,13 @@ public class Request {
             while ((line = in.readLine()) != null) {
                 response.append(line).append("\n");
             }
+
+            // Log the response
+            logger.info("Received response from " + server + ":" + port + "\n" + response.toString());
+
             return response.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.severe("Error sending request to " + server + ":" + port + " - " + e.getMessage());
             return "Error: " + e.getMessage();
         }
     }
@@ -76,5 +88,5 @@ public class Request {
     public Map<String, String> getHeaders() {
         return this.headers;
     }
-    
+
 }

@@ -1,15 +1,18 @@
 package http.server.usj;
+
 import java.util.ArrayList;
 import java.io.Console;
 import java.net.URL;
 
 public class Client {
     // For th API usgae
-    /*CarAPI api;
-
-    public Client(CarAPI api) {
-        this.api = api;
-    }*/
+    /*
+     * CarAPI api;
+     * 
+     * public Client(CarAPI api) {
+     * this.api = api;
+     * }
+     */
 
     // We need to add methods for displayCars, add, update and delete cars
     public static void main(String[] args) {
@@ -44,14 +47,14 @@ public class Client {
 
         while (true) {
             Request request = new Request(server, port);
-            ArrayList<String> validMethods=new ArrayList<String>();
+            ArrayList<String> validMethods = new ArrayList<String>();
             validMethods.add("GET");
             validMethods.add("HEAD");
             validMethods.add("EXIT");
             // Check if the method is valid
-            if (path.contains("/static")){
+            if (path.contains("/static")) {
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, EXIT): ");
-            }else{
+            } else {
                 validMethods.add("PUT");
                 validMethods.add("POST");
                 validMethods.add("DELETE");
