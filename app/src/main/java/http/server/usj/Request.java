@@ -32,7 +32,7 @@ public class Request {
 
     private void setupLogger() {
         try {
-            FileHandler fileHandler = new FileHandler("logings" + "request.log");
+            FileHandler fileHandler = new FileHandler("request.log");
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             logger.addHandler(fileHandler);
