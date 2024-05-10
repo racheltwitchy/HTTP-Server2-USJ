@@ -93,19 +93,6 @@ public class ClientHandler implements Runnable {
     }
 
     private String handlePost(String body) {
-        // Example: Parsing input to find cars in a price range
-        String[] parts = body.split(",");
-        try {
-            double min = Double.parseDouble(parts[0]);
-            double max = Double.parseDouble(parts[1]);
-            return filterCarsByPrice(min, max);
-        } catch (NumberFormatException e) {
-            return "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
-                   "Invalid price format";
-        }
-    }
-
-    private String handlePut(String body) {
         // Example: Adding a new car to the list
         String[] parts = body.split(",");
         try {
@@ -117,6 +104,26 @@ public class ClientHandler implements Runnable {
             } else {
                 return "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                        "Car already exists";
+            }
+        } catch (Exception e) {
+            return "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                   "Invalid car data format";
+        }
+    }
+
+    private String handlePut(String body) {
+        //Modificar un coche por un indice pasado por el body
+        String[] parts = body.split(",");
+        try {
+            int index = Integer.parseInt(parts[0].trim()) - 1;
+            if (index >= 0 && index < cars.size()) {
+                Car modifiedCar = new Car(parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
+                cars.set(index, modifiedCar);
+                return "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                       "Modified car: " + modifiedCar.toString();
+            } else {
+                return "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                       "Car index out of bounds";
             }
         } catch (Exception e) {
             return "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
