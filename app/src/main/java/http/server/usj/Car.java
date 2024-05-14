@@ -69,13 +69,4 @@ public class Car {
                 this.price == other.price;
     }
 
-    public boolean equals(String brand, String model) {
-        return this.brand.equals(brand) && this.model.equals(model);
-    }
-
-    public String getId() {
-        // return this.matricula
-        return this.brand;
-    }
-
 }
