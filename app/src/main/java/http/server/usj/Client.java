@@ -5,16 +5,7 @@ import java.io.Console;
 import java.net.URL;
 
 public class Client {
-    // For th API usgae
-    /*
-     * CarAPI api;
-     * 
-     * public Client(CarAPI api) {
-     * this.api = api;
-     * }
-     */
 
-    // We need to add methods for displayCars, add, update and delete cars
     public static void main(String[] args) {
 
         Console console = System.console();
