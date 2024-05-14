@@ -81,7 +81,9 @@ public class GUIApp extends JFrame {
                 headers.put(parts[0].trim(), parts[1].trim());
             }
         }
+        //System.out.println("LOS HEADERS SON: "+headers.toString());
         String body = bodyArea.getText();
+        //System.out.println("EL BODY ES: "+body);
 
         // Create and configure the request
         Request request = new Request(server, port);
@@ -107,9 +109,11 @@ public class GUIApp extends JFrame {
                 responseArea.setText(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
                 System.out.println(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
                 
-            }else{
-                headers.forEach(request::addHeader);
+            }else{  
+                request.addHeader(headers);
+                System.out.println("LOS HEADERS SON: "+request.getHeaders().toString());
                 request.setBody(body);
+                System.out.println("EL BODY ES: "+request.getBody()) ;
                  // Send the request and capture the response
                 String response = request.send();
                 responseArea.setText(response);
