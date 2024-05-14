@@ -59,7 +59,7 @@ public class ClientHandler implements Runnable {
             // Dynamic content handling based on HTTP method
             String[] handlers=new String[requestLines.length-2];
             for (int i=2;i<requestLines.length-1;i++){
-                handlers[i-2] = requestLines[i-1];
+                handlers[i-2] = requestLines[i];
             }
             String body = requestLines[requestLines.length - 1];
             String response = handleRequest(method, body, handlers);
