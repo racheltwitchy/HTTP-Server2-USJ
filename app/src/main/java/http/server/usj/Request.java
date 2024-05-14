@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -53,13 +54,16 @@ public class Request {
             this.path = "/";
         }
     }
-
+    public void addHeader(Map<String, String> h){
+        headers.putAll(h);
+    }
     public void addHeader(String name, String value) {
         headers.put(name, value);
     }
 
     public void setBody(String body) {
-        this.body = body;
+        
+        this.body= body;
     }
 
     public String send() {
@@ -103,6 +107,10 @@ public class Request {
 
     public Map<String, String> getHeaders() {
         return this.headers;
+    }
+
+    public String getBody() {
+        return body;
     }
 
 }
