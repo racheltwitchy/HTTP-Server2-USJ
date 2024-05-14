@@ -10,6 +10,9 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.checkerframework.checker.units.qual.h;
 
 public class ClientHandler implements Runnable {
     private final Socket socket;
@@ -54,8 +57,12 @@ public class ClientHandler implements Runnable {
             }
 
             // Dynamic content handling based on HTTP method
+            String[] handlers=new String[requestLines.length-2];
+            for (int i=2;i<requestLines.length-1;i++){
+                handlers[i-2] = requestLines[i-1];
+            }
             String body = requestLines[requestLines.length - 1];
-            String response = handleRequest(method, body);
+            String response = handleRequest(method, body, handlers);
             writer.print(response);
         } catch (Exception e) {
             System.out.println("Error handling client request: " + e.getMessage());
@@ -63,10 +70,10 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private String handleRequest(String method, String body) {
+    private String handleRequest(String method, String body, String[] handlers) {
         switch (method) {
             case "GET":
-                return handleGet(body);
+                return handleGet(body, handlers);
             case "HEAD":
                 return handleHead();
             case "POST":
@@ -80,10 +87,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private String handleGet(String body) {
+    private String handleGet(String body, String[] handlers) {
         return "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                 "Echoing back your request body(GET):\r\n" +
                 "Content-Length: " + body.getBytes().length + " \r\n" +
+                Arrays.toString(handlers)+ "\r\n" +
                 "Date: " + java.time.LocalDateTime.now() + "\r\n" +
                 Server.carsToString(cars) + "\r\n";
     }
@@ -117,9 +125,11 @@ public class ClientHandler implements Runnable {
         try {
             int index = Integer.parseInt(parts[0].trim()) - 1;
             if (index >= 0 && index < cars.size()) {
+                Car oldCar = cars.get(index);
                 Car modifiedCar = new Car(parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
                 cars.set(index, modifiedCar);
                 return "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                        "Old car: " + oldCar.toString() + "\r\n" +
                        "Modified car: " + modifiedCar.toString();
             } else {
                 return "HTTP/1.1 404 Not Found\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
@@ -147,18 +157,6 @@ public class ClientHandler implements Runnable {
             return "HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                    "Invalid index format";
         }
-    }
-
-    private String filterCarsByPrice(double min, double max) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n");
-        sb.append("Cars in price range: ").append(min).append(" to ").append(max).append("\r\n");
-        for (Car car : cars) {
-            if (car.getPrice() >= min && car.getPrice() <= max) {
-                sb.append(car.toString()).append("\r\n");
-            }
-        }
-        return sb.toString();
     }
 
     private void serveStaticContent(OutputStream output, String filePath) {
