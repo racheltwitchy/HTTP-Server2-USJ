@@ -85,6 +85,6 @@ public enum ServerStatus {
     }
 
     public String getStatusString() {
-        return this.statusCode;
+        return "HTTP/1.1" + this.statusCode;
     }
 }
