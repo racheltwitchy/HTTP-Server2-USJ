@@ -12,9 +12,8 @@ The grouped is composed by Fernando Otal and Raquel Perez.
   4.Implementation
   5.Challenges and Solutions
   6.Testing and Evaluation 
-  7.Conclusion
-  8.Appendices 
-  9.References
+  7.Conclusion 
+  8.References
 
 ### 1.Introduction
 
@@ -24,21 +23,21 @@ The objective of the group project is to achieve a deep understanding of the HTT
 
 In this group project, we aim to implement a simplified version of the HTTP protocol from scratch, using Java, without the aid of higher-level frameworks such as SpringBoot or OkHttp.
 
-### Project Planning and Design
-  #### Initial Planning
+### 2.Project Planning and Design
+  #### 2.1.Initial Planning
   Class Sessions
-  #### Requirements
-  #### Design Decisions
+  #### 2.2.Requirements
+  #### 2.3.Design Decisions
 
-### Work Methodology
+### 3.Work Methodology
 
-### Implementation
+### 4.Implementation
 
-### Challenges and Solutions
+### 5.Challenges and Solutions
 
-### Testing and Evaluation
+### 6.Testing and Evaluation
 
-### Conclusion
+### 7.Conclusion
 
-### References
+### 8.References
   OpenAI, ChatGPT 3.5, 4.0; https://chatgpt.com
