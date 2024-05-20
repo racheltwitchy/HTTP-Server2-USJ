@@ -108,7 +108,7 @@
                     return ServerStatus.CREATED_201.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                         "Added car: " + newCar.toString();
                 } else {
-                    return "HTTP/1.1 \r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.CONFLICT_409.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                         "Car already exists";
                 }
             } catch (Exception e) {
