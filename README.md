@@ -3,17 +3,17 @@ This repository was created for the aim of group project for the course Networks
 The grouped is composed by Fernando Otal and Raquel Perez.
 
 ## Table of Contents
-   - 1.Introductión
-   - 2.Project Planning and Design
-    - 2.1 Initial Planning
-    - 2.2 Requirements
-    - 2.4 Design Decisions
-   - 3.Work Methodology
-   - 4.Implementation
-   - 5.Challenges and Solutions
-   - 6.Testing and Evaluation 
-   - 7.Conclusion 
-   - 8.References
+   - 1. Introductión
+   - 2. Project Planning and Design
+     -2.1 Initial Planning
+     -2.2 Requirements
+     -2.3 Design Decisions
+   - 3. Work Methodology
+   - 4. Implementation
+   - 5. Challenges and Solutions
+   - 6. Testing and Evaluation 
+   - 7. Conclusion 
+   - 8. References
 
 ### 1.Introduction
 
