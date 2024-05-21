@@ -73,13 +73,13 @@
                 case "GET":
                     return handleGet(body, handlers);
                 case "HEAD":
-                    return handleHead();
+                    return handleHead(handlers);
                 case "POST":
-                    return handlePost(body);
+                    return handlePost(body,handlers);
                 case "PUT":
-                    return handlePut(body);
+                    return handlePut(body,handlers);
                 case "DELETE":
-                    return handleDelete(body);
+                    return handleDelete(body,handlers);
                 default:
                     return ServerStatus.NOT_IMPLEMENTED_501.getStatusString()+"\r\n\r\n";
             }
@@ -94,30 +94,30 @@
                     Server.carsToString(cars) + "\r\n";
         }
 
-        private String handleHead() {
-            return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n";
+        private String handleHead(String[] handlers) {
+            return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+ "\r\n" +"\r\nConnection: close\r\n\r\n";
         }
 
-        private String handlePost(String body) {
+        private String handlePost(String body, String[] handlers) {
             // Example: Adding a new car to the list
             String[] parts = body.split(",");
             try {
                 Car newCar = new Car(parts[0], parts[1], Integer.parseInt(parts[2]), Integer.parseInt(parts[3]));
                 if (!cars.contains(newCar)) {
                     cars.add(newCar);
-                    return ServerStatus.CREATED_201.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.CREATED_201.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+ "\r\n" +"\r\nConnection: close\r\n\r\n" +
                         "Added car: " + newCar.toString();
                 } else {
-                    return ServerStatus.CONFLICT_409.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.CONFLICT_409.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                         "Car already exists";
                 }
             } catch (Exception e) {
-                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                     "Invalid car data format";
             }
         }
 
-        private String handlePut(String body) {
+        private String handlePut(String body, String[] handlers) {
             //Modificar un coche por un indice pasado por el body
             String[] parts = body.split(",");
             try {
@@ -126,33 +126,33 @@
                     Car oldCar = cars.get(index);
                     Car modifiedCar = new Car(parts[1], parts[2], Integer.parseInt(parts[3]), Integer.parseInt(parts[4]));
                     cars.set(index, modifiedCar);
-                    return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                             "Old car: " + oldCar.toString() + "\r\n" +
                         "Modified car: " + modifiedCar.toString();
                 } else {
-                    return ServerStatus.NOT_FOUND_404.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.NOT_FOUND_404.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                         "Car index out of bounds";
                 }
             } catch (Exception e) {
-                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                     "Invalid car data format";
             }
         }
 
-        private String handleDelete(String body) {
+        private String handleDelete(String body, String[] handlers) {
             // Example: Removing a car by index
             try {
                 int index = Integer.parseInt(body.trim()) - 1;
                 if (index >= 0 && index < cars.size()) {
                     Car removedCar = cars.remove(index);
-                    return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.OK_200.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                         "Deleted car: " + removedCar.toString();
                 } else {
-                    return ServerStatus.NOT_FOUND_404.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                    return ServerStatus.NOT_FOUND_404.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                         "Car index out of bounds";
                 }
             } catch (NumberFormatException e) {
-                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
+                return ServerStatus.BAD_REQUEST_400.getStatusString()+"\r\nContent-Type: text/plain"+Arrays.toString(handlers)+"\r\nConnection: close\r\n\r\n" +
                     "Invalid index format";
             }
         }
