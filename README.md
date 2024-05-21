@@ -25,8 +25,15 @@ In this group project, we aim to implement a simplified version of the HTTP prot
 
 ### 2.Project Planning and Design
   #### 2.1.Initial Planning
-  Class Sessions
+      We spent the first few class sessions structuring the needs of the work, as well as deciding how we were going to divide up the tasks between everyone.
+      We also took the opportunity to review the concepts learned about the Hypertext Transfer Protocol (HTTP) during the course.
+      Finally, we decided that the language that best suited our knowledge was Java.
+
+      The objective was to develop a HTTp client server in Java without using the OkHttp or SpringBoot libraries, which already implement the functionality that we will develop in       this project.
+
   #### 2.2.Requirements
+   
+  
   #### 2.3.Design Decisions
 
 ### 3.Work Methodology
