@@ -38,7 +38,7 @@ public class Client {
 
         while (true) {
             Request request = new Request(server, port);
-            ArrayList<String> validMethods = new ArrayList<String>();
+            ArrayList<String> validMethods = new ArrayList<>();
             validMethods.add("GET");
             validMethods.add("HEAD");
             validMethods.add("EXIT");
@@ -51,7 +51,7 @@ public class Client {
                 validMethods.add("DELETE");
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
             }
-            String method = console.readLine();
+            String method = console.readLine().toUpperCase();
 
             if (!validMethods.contains(method)) {
                 System.out.println(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
@@ -80,22 +80,20 @@ public class Client {
 
             String body = "";
 
-            if(method=="POST"){
+            if ("POST".equals(method)) {
                 System.out.println("Type the car details separated by commas (e.g., 'Toyota,Corolla,2015,20000'):");
                 body = console.readLine();
                 request.setBody(body);
-            }
-            if (method=="PUT" ) {
-                System.out.println("Type the car details to modify by an index separated by commas (e.g., '1,Toyota,Corolla,2015,20000'):");
+            } else if ("PUT".equals(method)) {
+                System.out.println(
+                        "Type the car details to modify by an index separated by commas (e.g., '1,Toyota,Corolla,2015,20000'):");
                 body = console.readLine();
                 request.setBody(body);
-            }
-            if (method=="DELETE") {
+            } else if ("DELETE".equals(method)) {
                 System.out.println("Type the index of the car you want to delete:");
                 body = console.readLine();
                 request.setBody(body);
-            }
-            else if (method=="GET" || method=="HEAD") {
+            } else if ("HEAD".equals(method) || "GET".equals(method)) {
                 System.out.println("Type the body (if needed) and press enter: ");
                 body = console.readLine();
                 request.setBody(body);
