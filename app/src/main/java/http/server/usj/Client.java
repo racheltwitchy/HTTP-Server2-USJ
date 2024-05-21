@@ -78,10 +78,28 @@ public class Client {
                 }
             }
 
-            // Input the body of the message if necessary
-            System.out.println("Type the body (if needed) and press enter: ");
-            String body = console.readLine();
-            request.setBody(body);
+            String body = "";
+
+            if(method=="POST"){
+                System.out.println("Type the car details separated by commas (e.g., 'Toyota,Corolla,2015,20000'):");
+                body = console.readLine();
+                request.setBody(body);
+            }
+            if (method=="PUT" ) {
+                System.out.println("Type the car details to modify by an index separated by commas (e.g., '1,Toyota,Corolla,2015,20000'):");
+                body = console.readLine();
+                request.setBody(body);
+            }
+            if (method=="DELETE") {
+                System.out.println("Type the index of the car you want to delete:");
+                body = console.readLine();
+                request.setBody(body);
+            }
+            else if (method=="GET" || method=="HEAD") {
+                System.out.println("Type the body (if needed) and press enter: ");
+                body = console.readLine();
+                request.setBody(body);
+            }
 
             // Print the full request details for review before sending
             System.out.println("\nFinal Request Details:");
