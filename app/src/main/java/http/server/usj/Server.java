@@ -8,6 +8,7 @@ public class Server {
 
     public static void main(String[] args) {
         ArrayList<Car> cars = new ArrayList<>();
+
         System.out.println("Type the port you want: ");
         String port = System.console().readLine();
 

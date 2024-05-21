@@ -94,7 +94,7 @@ public class Client {
             }
             System.out.println("\nSending request...\n");
 
-            // Send the request and receive the response
+            // Send the request snd receive the response
             String response = request.send();
             System.out.println("Response from server:\n" + response);
         }

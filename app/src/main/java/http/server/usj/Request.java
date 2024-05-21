@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -21,19 +23,26 @@ public class Request {
     private int port;
     private String method;
     private String path;
-    private Map<String, String> headers = new HashMap<>();
+    private Map<String, String> headers;
     private String body = "";
 
     public Request(String server, int port) {
         this.server = server;
         this.port = port;
         this.path = "/";
+        this.headers = new HashMap<>();
         setupLogger();
     }
 
     private void setupLogger() {
         try {
-            FileHandler fileHandler = new FileHandler("request.log");
+            // Define the directory for logs
+            Path logDir = Paths.get("logs");
+            if (!Files.exists(logDir)) {
+                Files.createDirectory(logDir);
+            }
+            // Create a FileHandler with the specified directory
+            FileHandler fileHandler = new FileHandler(logDir.resolve("request.log").toString());
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);
             logger.addHandler(fileHandler);
@@ -54,16 +63,17 @@ public class Request {
             this.path = "/";
         }
     }
-    public void addHeader(Map<String, String> h){
+
+    public void addHeader(Map<String, String> h) {
         headers.putAll(h);
     }
+
     public void addHeader(String name, String value) {
         headers.put(name, value);
     }
 
     public void setBody(String body) {
-        
-        this.body= body;
+        this.body = body;
     }
 
     public String send() {
@@ -85,7 +95,6 @@ public class Request {
                 PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
                 BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-            // Log the request
             logger.info("Sending request to " + server + ":" + port + " - " + method + " " + path);
 
             out.println(request.toString());
@@ -95,7 +104,6 @@ public class Request {
                 response.append(line).append("\n");
             }
 
-            // Log the response
             logger.info("Received response from " + server + ":" + port + "\n" + response.toString());
 
             return response.toString();
