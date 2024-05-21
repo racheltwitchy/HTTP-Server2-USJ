@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.FileHandler;
@@ -62,7 +61,6 @@ public class Request {
     }
 
     public void setBody(String body) {
-        
         this.body= body;
     }
 
