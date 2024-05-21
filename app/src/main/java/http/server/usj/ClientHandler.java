@@ -15,24 +15,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClientHandler implements Runnable {
+    // Socket for communication with the client
     private final Socket socket;
+    // List of Car objects to manage
     private final ArrayList<Car> cars;
 
+    // Constructor to initialize ClientHandler with a socket and a list of cars
     public ClientHandler(Socket socket, ArrayList<Car> cars) {
         this.socket = socket;
         this.cars = cars;
+        // Add default cars if the list is empty
         if (cars.isEmpty()) {
             cars.add(new Car("Toyota", "Corolla", 150, 20000));
             cars.add(new Car("Honda", "Civic", 160, 22000));
         }
     }
 
+    // Override the run method to handle client requests
     @Override
     public void run() {
         try (BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 OutputStream output = socket.getOutputStream();
                 PrintWriter writer = new PrintWriter(output, true)) {
 
+            // Read and build the request from the client
             StringBuilder requestBuilder = new StringBuilder();
             String line;
             while (!(line = input.readLine()).isBlank()) {
@@ -44,12 +50,13 @@ public class ClientHandler implements Runnable {
                 requestBuilder.append(line).append("\r\n");
             }
 
+            // Split the request into lines
             String request = requestBuilder.toString();
             String[] requestLines = request.split("\r\n");
             String methodLine = requestLines[0];
             String[] methodLineParts = methodLine.split(" ");
-            String method = methodLineParts[0];
-            String path = methodLineParts[1];
+            String method = methodLineParts[0]; // Extract the HTTP method
+            String path = methodLineParts[1]; // Extract the path
 
             // Handle static content request
             if (path.contains("/static") || path.contains("/index.html")) {
@@ -62,6 +69,7 @@ public class ClientHandler implements Runnable {
             for (int i = 2; i < requestLines.length - 1; i++) {
                 handlers[i - 2] = requestLines[i];
             }
+            // Remove null and Content-Length headers
             handlers = removeNullValues(handlers);
             handlers = removeContentLength(handlers);
             String body = requestLines[requestLines.length - 1];
@@ -73,6 +81,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    // Remove null or blank values from an array
     private String[] removeNullValues(String[] array) {
         List<String> filteredList = Arrays.stream(array)
                 .filter(value -> value != null && !value.isBlank())
@@ -80,6 +89,7 @@ public class ClientHandler implements Runnable {
         return filteredList.toArray(new String[0]);
     }
 
+    // Remove Content-Length header from an array
     private String[] removeContentLength(String[] array) {
         List<String> filteredList = Arrays.stream(array)
                 .filter(value -> !value.toLowerCase().startsWith("content-length"))
@@ -87,10 +97,12 @@ public class ClientHandler implements Runnable {
         return filteredList.toArray(new String[0]);
     }
 
+    // Format headers array into a string with each header on a new line
     private String formatHeaders(String[] headers) {
         return Arrays.stream(headers).collect(Collectors.joining("\r\n"));
     }
 
+    // Handle different HTTP methods
     private String handleRequest(String method, String body, String[] handlers) {
         switch (method) {
             case "GET":
@@ -108,6 +120,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    // Handle GET request
     private String handleGet(String body, String[] handlers) {
         return ServerStatus.OK_200.getStatusString() + "\r\nContent-Type: text/plain\r\nConnection: close\r\n\r\n" +
                 "Echoing back your request body(GET):\r\n" +
@@ -117,11 +130,13 @@ public class ClientHandler implements Runnable {
                 Server.carsToString(cars) + "\r\n";
     }
 
+    // Handle HEAD request
     private String handleHead(String[] handlers) {
         return ServerStatus.OK_200.getStatusString() + "\r\nContent-Type: text/plain\r\n" + formatHeaders(handlers) +
                 "\r\nConnection: close\r\n\r\n";
     }
 
+    // Handle POST request
     private String handlePost(String body, String[] handlers) {
         // Example: Adding a new car to the list
         String[] parts = body.split(",");
@@ -144,8 +159,9 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    // Handle PUT request
     private String handlePut(String body, String[] handlers) {
-        // Modificar un coche por un indice pasado por el body
+        // Modify a car by an index passed in the body
         String[] parts = body.split(",");
         try {
             int index = Integer.parseInt(parts[0].trim()) - 1;
@@ -169,6 +185,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    // Handle DELETE request
     private String handleDelete(String body, String[] handlers) {
         // Example: Removing a car by index
         try {
@@ -190,6 +207,7 @@ public class ClientHandler implements Runnable {
         }
     }
 
+    // Serve static content (e.g., HTML files)
     private void serveStaticContent(OutputStream output, String filePath) {
         File file = new File(filePath);
         try (FileInputStream fis = new FileInputStream(file);
@@ -199,7 +217,7 @@ public class ClientHandler implements Runnable {
             pw.println(ServerStatus.OK_200.getStatusString());
             pw.println("Content-Type: text/html");
             pw.println("Content-Length: " + file.length());
-            pw.println(""); // blank line between headers and content, very important!
+            pw.println(""); // Blank line between headers and content, very important!
             pw.flush();
 
             // Stream file contents

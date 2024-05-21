@@ -1,11 +1,15 @@
 package http.server.usj;
 
+// Enum to represent various HTTP status codes
 public enum ServerStatus {
 
-    CONTINUE_100("100 Continue"), 
-    SWITCHING_PROTOCOLS_101("101 Switching Protocols"), 
-    PROCESSING_102("102 Processing"), 
+    // 1xx Informational responses
+    CONTINUE_100("100 Continue"),
+    SWITCHING_PROTOCOLS_101("101 Switching Protocols"),
+    PROCESSING_102("102 Processing"),
     EARLY_HINTS_103("103 Early Hints"),
+
+    // 2xx Success responses
     OK_200("200 OK"),
     CREATED_201("201 Created"),
     ACCEPTED_202("202 Accepted"),
@@ -17,6 +21,8 @@ public enum ServerStatus {
     ALREADY_REPORTED_208("208 Already Reported"),
     TRANSFORMATION_APPLIED_214("214 Transformation Applied"),
     IM_USED_226("226 IM Used"),
+
+    // 3xx Redirection messages
     MULTIPLE_CHOICES_300("300 Multiple Choices"),
     MOVED_PERMANENTLY_301("301 Moved Permanently"),
     FOUND_302("302 Found"),
@@ -26,6 +32,8 @@ public enum ServerStatus {
     SWITCH_PROXY_306("306 Switch Proxy"),
     TEMPORARY_REDIRECT_307("307 Temporary Redirect"),
     PERMANENT_REDIRECT_308("308 Permanent Redirect"),
+
+    // 4xx Client error responses
     BAD_REQUEST_400("400 Bad Request"),
     UNAUTHORIZED_401("401 Unauthorized"),
     PAYMENT_REQUIRED_402("402 Payment Required"),
@@ -55,6 +63,8 @@ public enum ServerStatus {
     TOO_MANY_REQUESTS_429("429 Too Many Requests"),
     REQUEST_HEADER_FIELDS_TOO_LARGE_431("431 Request Header Fields Too Large"),
     UNAVAILABLE_FOR_LEGAL_REASONS_451("451 Unavailable For Legal Reasons"),
+
+    // 5xx Server error responses
     INTERNAL_SERVER_ERROR_500("500 Internal Server Error"),
     NOT_IMPLEMENTED_501("501 Not Implemented"),
     BAD_GATEWAY_502("502 Bad Gateway"),
@@ -66,6 +76,8 @@ public enum ServerStatus {
     LOOP_DETECTED_508("508 Loop Detected"),
     NOT_EXTENDED_510("510 Not Extended"),
     NETWORK_AUTHENTICATION_REQUIRED_511("511 Network Authentication Required"),
+
+    // Cloudflare specific errors (5xx)
     WEB_SERVER_IS_DOWN_521("521 Web Server Is Down"),
     CONNECTION_TIMED_OUT_522("522 Connection Timed Out"),
     ORIGIN_IS_UNREACHABLE_523("523 Origin Is Unreachable"),
@@ -78,12 +90,15 @@ public enum ServerStatus {
     NETWORK_READ_TIMEOUT_ERROR_598("598 Network read timeout error"),
     NETWORK_CONNECT_TIMEOUT_ERROR_599("599 Network connect timeout error");
 
+    // String to store the status code and reason phrase
     private String statusCode;
 
+    // Constructor to initialize the status code
     ServerStatus(String statusCode) {
         this.statusCode = statusCode;
     }
 
+    // Method to get the HTTP status line string
     public String getStatusString() {
         return "HTTP/1.1 " + this.statusCode;
     }

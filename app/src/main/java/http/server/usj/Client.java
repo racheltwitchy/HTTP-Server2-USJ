@@ -8,24 +8,27 @@ public class Client {
 
     public static void main(String[] args) {
 
+        // Get the console object to interact with the user
         Console console = System.console();
         if (console == null) {
             System.err.println("No console available");
             return;
         }
 
+        // Ask the user for the URL they want to connect to
         System.out.println("Enter the full URL you want to connect to (e.g., http://localhost:80): ");
         String urlString = console.readLine();
         String server = "";
         int port = 80; // Default HTTP port
         String path = "/"; // Default path
 
-        // Add http:// if not present
+        // Add http:// to the URL if it is not present
         if (!urlString.startsWith("http://")) {
             urlString = "http://" + urlString;
         }
 
         try {
+            // Parse the URL to extract the server, port, and path
             URL url = new URL(urlString);
             server = url.getHost();
             port = url.getPort() == -1 ? url.getDefaultPort() : url.getPort();
@@ -37,12 +40,14 @@ public class Client {
         }
 
         while (true) {
+            // Create a new request object
             Request request = new Request(server, port);
             ArrayList<String> validMethods = new ArrayList<>();
             validMethods.add("GET");
             validMethods.add("HEAD");
             validMethods.add("EXIT");
-            // Check if the method is valid
+
+            // Check if the method is valid and list valid methods
             if (path.contains("/static")) {
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, EXIT): ");
             } else {
@@ -51,8 +56,11 @@ public class Client {
                 validMethods.add("DELETE");
                 System.out.println("Type the HTTP method you want to use (GET, HEAD, PUT, POST, DELETE, EXIT): ");
             }
+
+            // Read the method input from the user
             String method = console.readLine().toUpperCase();
 
+            // Validate the method
             if (!validMethods.contains(method)) {
                 System.out.println(ServerStatus.METHOD_NOT_ALLOWED_405.getStatusString());
                 continue;
@@ -60,10 +68,11 @@ public class Client {
                 break; // Exit the loop if the method is EXIT
             }
 
+            // Set the method and path for the request
             request.setMethod(method);
-            request.setPath(path); // Set path extracted from URL
+            request.setPath(path);
 
-            // Collecting headers from the user
+            // Collect headers from the user
             System.out.println("Enter headers (type 'Name: Value'), type 'STOP' to finish:");
             while (true) {
                 String headerLine = console.readLine();
@@ -80,6 +89,7 @@ public class Client {
 
             String body = "";
 
+            // Collect body data based on the method type
             if ("POST".equals(method)) {
                 System.out.println("Type the car details separated by commas (e.g., 'Toyota,Corolla,2015,20000'):");
                 body = console.readLine();
