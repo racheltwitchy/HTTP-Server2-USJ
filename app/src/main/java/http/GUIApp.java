@@ -121,7 +121,7 @@ public class GUIApp extends JFrame {
                 headers.put(parts[0].trim(), parts[1].trim()); // Add headers to the map
             }
         }
-        String body = bodyArea.getText(); // Get request body
+        String body = " " + bodyArea.getText(); // Get request body
 
         // Create and configure the request
         Request request = new Request(server, port);
