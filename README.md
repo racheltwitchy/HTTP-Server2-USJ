@@ -11,7 +11,7 @@ The grouped is composed by Fernando Otal and Raquel Perez.
    - 3.Work Methodology
    - 4.Implementation
    - 5.Challenges and Solutions
-   - 6.Testing and Evaluation 
+   - 6.Testing and Evaluation
    - 7.Conclusion 
    - 8.References
 
