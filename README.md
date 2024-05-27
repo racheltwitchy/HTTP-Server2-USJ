@@ -17,7 +17,7 @@ The grouped is composed by Fernando Otal and Raquel Perez.
 
 ### 1.Introduction
 
-During part of this subject, a key protocol we cover is the Hypertext Transfer Protocol (HTTP). HTTP is an application layer protocol within both the OSI and TCP/IP models, primarily used for transmitting hypermedia documents, such as HTML. It forms the foundation of data communication for the World Wide Web, operating on a client-server model that facilitates the fetching of resources, like web pages, from a server to a client, typically a web browser.
+During part of this subject, a key protocol we cover is the Hypertext Transfer Protocol (HTTP). HTTP, is an application layer protocol within both the OSI and TCP/IP models, primarily used for transmitting hypermedia documents, such as HTML. It forms the foundation of data communication for the World Wide Web, operating on a client-server model that facilitates the fetching of resources, like web pages, from a server to a client, typically a web browser.
 
 The objective of the group project is to achieve a deep understanding of the HTTP protocol. This includes everything from its implementation at the lowest level to advanced details such as caching, authentication, or the implementation of REST APIs.
 
